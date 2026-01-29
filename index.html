@@ -1,71 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 <title>Kalkulator Double Two Interior</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body{
-  font-family:'Segoe UI',Arial;
-  background:linear-gradient(135deg,#eef2f7,#d9e4f5);
-  padding:15px;
-  margin:0;
-}
-
+body{font-family:'Segoe UI',Arial;background:linear-gradient(135deg,#eef2f7,#d9e4f5);padding:30px}
 .container{max-width:1100px;margin:auto}
-
-h2{text-align:center;color:#2c3e50;font-size:20px}
-
-.top-form,.group,.result{
-  background:#fff;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:15px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08)
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-  min-width:500px;
-}
-
-.table-wrap{overflow-x:auto}
-
+h2{text-align:center;color:#2c3e50}
+.top-form{background:#fff;padding:15px;border-radius:10px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.group{background:#fff;border-radius:10px;padding:15px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+table{width:100%;border-collapse:collapse;margin-top:10px}
 th{background:#2c3e50;color:white;padding:8px}
-
 td{padding:6px;border-bottom:1px solid #ddd;text-align:center}
-
-input,select{
-  padding:8px;
-  border-radius:6px;
-  border:1px solid #ccc;
-  width:100%;
-  box-sizing:border-box;
-}
-
-button{
-  padding:10px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  font-weight:bold;
-  margin:5px 0;
-  width:100%;
-}
-
+input,select{padding:5px;border-radius:4px;border:1px solid #ccc}
+button{padding:7px 12px;border:none;border-radius:5px;cursor:pointer;font-weight:bold;margin:5px}
 .btn-add{background:#3498db;color:white}
 .btn-add-size{background:#2ecc71;color:white}
 .btn-calc{background:#e67e22;color:white}
 .btn-pdf{background:#16a085;color:white}
 .btn-delete{background:#e74c3c;color:white}
-
+.result{background:#fff;padding:15px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.08);margin-top:20px;white-space:pre-line}
 .info{font-size:13px;color:#666;margin-left:10px}
-
-@media(min-width:700px){
- button{width:auto}
-}
 </style>
 </head>
 <body>
@@ -128,11 +84,8 @@ function addGroup(){
  let tbl=document.createElement("table");
  tbl.innerHTML="<tr><th>Lebar Kaca</th><th>Tinggi</th><th>Qty</th><th>Hapus</th></tr>";
 
-let wrap=document.createElement("div");
-wrap.className="table-wrap";
-wrap.appendChild(tbl);
-
-div.append("Produk: ",produkSelect," Varian: ",varianSelect,infoLebar," ",btnTambahUkuran,wrap);
+ div.append("Produk: ",produkSelect," Varian: ",varianSelect,infoLebar," ",btnTambahUkuran,tbl);
+ document.getElementById("groups").appendChild(div);
 }
 
 function updateVarian(prodSel,varSel,info){
@@ -245,5 +198,3 @@ addGroup();
 </script>
 </body>
 </html>
-
-
