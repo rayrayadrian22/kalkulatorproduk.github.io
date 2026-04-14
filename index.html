@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Double Two Interior - Professional Planner</title>
@@ -20,7 +19,6 @@
         .container { max-width: 1100px; margin: auto; }
         .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 20px; position: relative; transition: 0.3s; }
         
-        /* Responsive Header */
         .header-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; gap: 15px; }
         .logo-text { font-size: 24px; font-weight: 900; color: var(--accent); text-transform: uppercase; line-height: 1; }
         .logo-sub { font-size: 12px; font-weight: 600; color: var(--text); display: block; letter-spacing: 2px; }
@@ -30,14 +28,11 @@
         .grid-header-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; align-items: end; }
         .grid-header-group { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 10px; }
         
-        @media (min-width: 600px) {
-            .grid-header-group { grid-template-columns: 1fr 1fr; }
-        }
+        @media (min-width: 600px) { .grid-header-group { grid-template-columns: 1fr 1fr; } }
 
         label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 8px; color: #7f8c8d; text-transform: uppercase; }
         input, select { padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; width: 100%; box-sizing: border-box; font-size: 14px; background: var(--card); color: var(--text); }
         
-        /* Table Responsive */
         .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; border-radius: 8px; }
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
         th { text-align: left; font-size: 11px; color: #95a5a6; padding: 12px; border-bottom: 2px solid var(--border); }
@@ -55,13 +50,10 @@
         @media (min-width: 600px) { .btn-copy { width: auto; align-self: flex-end; } }
 
         .btn-download { background: #9b59b6; color: white; font-size: 9px; padding: 6px 10px; margin-top: 10px; }
-        @media (min-width: 600px) { 
-            .btn-download { position: absolute; top: 10px; right: 10px; margin-top: 0; }
-        }
+        @media (min-width: 600px) { .btn-download { position: absolute; top: 10px; right: 10px; margin-top: 0; } }
 
         .btn-flip { background: var(--primary); color: white; font-size: 10px; padding: 8px; margin-top: 5px; display: none; border: 1.5px solid var(--border); width: 100%; }
 
-        /* Report & Visual */
         .report-card { background: var(--card); color: var(--text); border-radius: 12px; overflow: hidden; margin-top: 30px; border: 1px solid var(--border); display: flex; flex-direction: column; }
         .report-header { background: var(--report-bg); padding: 15px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--accent); color: white; gap: 10px; }
         .report-body { padding: 15px; display: flex; flex-direction: column; }
@@ -97,7 +89,7 @@
     </div>
 
     <div id="groups"></div>
-    <button class="btn btn-accent" onclick="prosesKalkulasi()">HITUNG & GENERATE</button>
+    <button class="btn btn-accent" onclick="prosesKalkulasi()">HITUNG & GENERATE LAPORAN</button>
 
     <div id="result-area" style="display:none;">
         <div id="rekomendasi-list" style="background:#fffbe6; padding:15px; border-radius:10px; margin-bottom:20px; color:#856404; font-size:13px; display:none;"></div>
@@ -112,7 +104,7 @@
             </div>
         </div>
         <div class="card" style="padding:15px;">
-            <h3 style="margin:0 0 10px 0; font-size:14px;">SKEMA POTONG</h3>
+            <h3 style="margin:0 0 10px 0; font-size:14px;">SKEMA POTONG (OPTIMIZED)</h3>
             <div id="canvas-list"></div>
         </div>
     </div>
@@ -124,9 +116,7 @@ function toggleDarkMode() {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     updateThemeUI(isDark);
 }
-function updateThemeUI(isDark) {
-    document.getElementById('theme-icon').innerText = isDark ? '☀️' : '🌙';
-}
+function updateThemeUI(isDark) { document.getElementById('theme-icon').innerText = isDark ? '☀️' : '🌙'; }
 if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); updateThemeUI(true); }
 document.getElementById("date-now").innerText = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
 
@@ -147,9 +137,7 @@ let reportForCopy = "";
 
 function addGroup() {
     const id = "group-" + Date.now();
-    const div = document.createElement("div");
-    div.className = "card group-card";
-    div.id = id;
+    const div = document.createElement("div"); div.className = "card group-card"; div.id = id;
     const prodOptions = Object.keys(produkFullData).map(p => `<option value="${p}">${p}</option>`).join('');
     div.innerHTML = `
         <div class="grid-header-group">
@@ -172,35 +160,27 @@ function addGroup() {
 }
 
 function updateVarianOptions(sel) {
-    const group = sel.closest(".group-card");
-    const varSel = group.querySelector(".var-sel");
-    const varians = produkFullData[sel.value];
+    const group = sel.closest(".group-card"); const varSel = group.querySelector(".var-sel"); const varians = produkFullData[sel.value];
     varSel.innerHTML = varians.map((v, index) => `<option value="${index}" data-lebar="${v.lebar}" data-strict="${v.strict || false}">${v.var} (${v.lebar} cm)</option>`).join('');
     showStrictBadge(varSel);
 }
 
 function showStrictBadge(sel) {
-    const group = sel.closest(".group-card");
-    const opt = sel.options[sel.selectedIndex];
-    const container = group.querySelector(".strict-info-container");
-    const flipBtn = group.querySelector(".btn-flip");
+    const group = sel.closest(".group-card"); const opt = sel.options[sel.selectedIndex];
+    const container = group.querySelector(".strict-info-container"); const flipBtn = group.querySelector(".btn-flip");
     const isStrict = opt.getAttribute("data-strict") === "true";
     container.innerHTML = isStrict ? `<span style="font-size:10px; color:#d48806; font-weight:bold;">⚠️ MOTIF STRICT</span>` : "";
-    flipBtn.style.display = isStrict ? "block" : "none";
-    flipBtn.dataset.flipped = "false";
-    flipBtn.innerText = "🔄 Motif Vertikal (Panjang)";
+    flipBtn.style.display = isStrict ? "block" : "none"; flipBtn.dataset.flipped = "false"; flipBtn.innerText = "🔄 Motif Vertikal (Panjang)";
 }
 
 function toggleFlip(btn) {
-    const isFlipped = btn.dataset.flipped === "true";
-    btn.dataset.flipped = !isFlipped;
+    const isFlipped = btn.dataset.flipped === "true"; btn.dataset.flipped = !isFlipped;
     btn.innerText = isFlipped ? "🔄 Motif Vertikal (Panjang)" : "✅ Motif Horizontal (Lebar)";
     btn.style.background = isFlipped ? "var(--primary)" : "#27ae60";
 }
 
 function addRow(groupId) {
-    const tbody = document.querySelector(`#${groupId} .table-body`);
-    const row = tbody.insertRow();
+    const tbody = document.querySelector(`#${groupId} .table-body`); const row = tbody.insertRow();
     row.innerHTML = `<td><input type="number" class="w-in"></td><td><input type="number" class="h-in"></td><td><input type="number" class="q-in" value="1"></td><td><button class="btn btn-danger" style="padding:5px 10px" onclick="this.closest('tr').remove()">✕</button></td>`;
 }
 
@@ -215,6 +195,7 @@ function prosesKalkulasi() {
     document.getElementById("res-customer").innerText = custName ? custName : "";
     let rekomendasiArr = [];
     reportForCopy = `Hasil Perhitungan Kebutuhan:\n\n`;
+
     groups.forEach(g => {
         const prodName = g.querySelector(".prod-sel").value;
         const varIndex = g.querySelector(".var-sel").value;
@@ -223,7 +204,8 @@ function prosesKalkulasi() {
         const isFlipped = flipBtn.dataset.flipped === "true";
         const rollW = varData.lebar;
         const rows = g.querySelectorAll(".table-body tr");
-        let itemsForNesting = [];
+        let items = [];
+
         rows.forEach(r => {
             let wIn = parseFloat(r.querySelector(".w-in").value) || 0;
             let hIn = parseFloat(r.querySelector(".h-in").value) || 0;
@@ -231,42 +213,45 @@ function prosesKalkulasi() {
             if(wIn > 0 && hIn > 0) {
                 let wF = wIn + (waste * 2); let hF = hIn + (waste * 2);
                 if(isFlipped) {
-                    if(hF > rollW) { rekomendasiArr.push(`❌ Tinggi ${hIn}cm tidak muat horizontal di roll ${rollW}cm.`); }
-                    for(let i=0; i<q; i++) itemsForNesting.push({w: wF, h: hF, label: `${wIn}x${hIn}(H)`});
+                    for(let i=0; i<q; i++) items.push({w: wF, h: hF, label: `${wIn}x${hIn}(H)`});
                 } else if(wF > rollW) {
-                    let p = Math.ceil(wF/rollW); for(let i=0; i<(q*p); i++) itemsForNesting.push({w: wF/p, h: hF, label: `${wIn}x${hIn}(P)`});
-                } else { for(let i=0; i<q; i++) itemsForNesting.push({w: wF, h: hF, label: `${wIn}x${hIn}`}); }
+                    let p = Math.ceil(wF/rollW); for(let i=0; i<(q*p); i++) items.push({w: wF/p, h: hF, label: `${wIn}x${hIn}(P)`});
+                } else { for(let i=0; i<q; i++) items.push({w: wF, h: hF, label: `${wIn}x${hIn}`}); }
             }
         });
-        if(itemsForNesting.length === 0) return;
-        let shelves = [];
-        if(isFlipped) {
-            itemsForNesting.forEach(item => {
-                let placed = false;
-                for(let s of shelves) {
-                    if(s.rem >= item.h) { s.items.push({ x: rollW - s.rem, y: s.y, w: item.h, h: item.w, label: item.label }); s.rem -= item.h; s.mH = Math.max(s.mH, item.w); placed = true; break; }
+
+        if(items.length === 0) return;
+
+        // ALGORITMA VERTICAL STACKING (COORDINATE SCAN)
+        items.sort((a,b) => b.h - a.h);
+        let totalHUsed = 0; let placements = []; let occupied = [];
+
+        items.forEach(item => {
+            let iW = isFlipped ? item.h : item.w; let iH = isFlipped ? item.w : item.h;
+            let found = false;
+            for (let y = 0; y < 20000; y += 2) {
+                for (let x = 0; x <= rollW - iW; x += 2) {
+                    let ov = false;
+                    for (let a of occupied) {
+                        if (!(x + iW <= a.x || x >= a.x + a.w || y + iH <= a.y || y >= a.y + a.h)) { ov = true; break; }
+                    }
+                    if (!ov) {
+                        placements.push({ x, y, w: iW, h: iH, label: item.label });
+                        occupied.push({ x, y, w: iW, h: iH });
+                        totalHUsed = Math.max(totalHUsed, y + iH); found = true; break;
+                    }
                 }
-                if(!placed) { let y = shelves.reduce((acc, s) => acc + s.mH, 0); shelves.push({ y: y, mH: item.w, rem: rollW - item.h, items: [{ x: 0, y: y, w: item.h, h: item.w, label: item.label }] }); }
-            });
-        } else {
-            itemsForNesting.sort((a,b) => b.h - a.h);
-            itemsForNesting.forEach(item => {
-                let placed = false;
-                for(let s of shelves) {
-                    if(s.rem >= item.w) { s.items.push({ x: rollW - s.rem, y: s.y, w: item.w, h: item.h, label: item.label }); s.rem -= item.w; s.mH = Math.max(s.mH, item.h); placed = true; break; }
-                }
-                if(!placed) { let y = shelves.reduce((acc, s) => acc + s.mH, 0); shelves.push({ y: y, mH: item.h, rem: rollW - item.w, items: [{ x: 0, y: y, w: item.w, h: item.h, label: item.label }] }); }
-            });
-        }
-        let totalH = shelves.reduce((acc, s) => acc + s.mH, 0);
-        let buyH = Math.ceil(totalH / 50) * 50; if(buyH === 50) buyH = 100;
+                if (found) break;
+            }
+        });
+
+        let buyH = Math.ceil(totalHUsed / 50) * 50; if(buyH > 0 && buyH < 100) buyH = 100;
         let pcs = buyH / 50;
         reportForCopy += `✅ *${prodName} (${varData.var})${isFlipped ? ' [H]' : ''}*\n> Checkout: ${pcs} Pcs\nDapat 1 lembar ${rollW} x ${buyH} cm\n\n`;
         const itemDiv = document.createElement("div"); itemDiv.className = "report-item";
-        itemDiv.innerHTML = `<h4>${prodName} - ${varData.var}</h4><div class="report-stats"><div class="stat-box"><span class="stat-label">Net</span><span class="stat-value">${totalH.toFixed(0)} cm</span></div><div class="stat-box"><span class="stat-label">Checkout</span><span class="stat-value" style="color:var(--accent)">${buyH} cm</span></div><div class="stat-box"><span class="stat-label">Total Pcs</span><span class="stat-value" style="color:#2ecc71">${pcs} Pcs</span></div></div>`;
-        reportContent.appendChild(itemDiv); drawVisual(`${prodName}-${varData.var}`, rollW, shelves, totalH);
+        itemDiv.innerHTML = `<h4>${prodName} - ${varData.var}</h4><div class="report-stats"><div class="stat-box"><span class="stat-label">Net</span><span class="stat-value">${totalHUsed.toFixed(0)} cm</span></div><div class="stat-box"><span class="stat-label">Checkout</span><span class="stat-value" style="color:var(--accent)">${buyH} cm</span></div><div class="stat-box"><span class="stat-label">Total Pcs</span><span class="stat-value" style="color:#2ecc71">${pcs} Pcs</span></div></div>`;
+        reportContent.appendChild(itemDiv); drawVisualOptimized(`${prodName}-${varData.var}`, rollW, placements, totalHUsed);
     });
-    if(rekomendasiArr.length > 0) { rekBox.style.display = "block"; rekBox.innerHTML = "<strong>💡 INFO:</strong><br>" + [...new Set(rekomendasiArr)].join("<br>"); }
     document.getElementById("result-area").style.display = "block";
 }
 
@@ -277,23 +262,19 @@ function copyReport() {
     });
 }
 
-function drawVisual(title, rollW, shelves, totalH) {
-    const scale = 2.0; const vContainer = document.createElement("div");
-    vContainer.className = "visual-container";
+function drawVisualOptimized(title, rollW, placements, totalH) {
+    const scale = 2.0; const vContainer = document.createElement("div"); vContainer.className = "visual-container";
     vContainer.innerHTML = `<p style="margin:0; font-size:11px; font-weight:700; text-align:left;">Layout: ${title}</p>`;
     const canvas = document.createElement("canvas"); canvas.width = rollW * scale; canvas.height = (totalH + 10) * scale;
     const ctx = canvas.getContext("2d"); ctx.fillStyle = "white"; ctx.fillRect(0,0,canvas.width, canvas.height);
-    shelves.forEach(s => {
-        s.items.forEach(item => {
-            ctx.strokeStyle = "#1a1a1a"; ctx.lineWidth = 1; ctx.strokeRect(item.x * scale, item.y * scale, item.w * scale, item.h * scale);
-            ctx.fillStyle = "rgba(255, 0, 0, 0.05)"; ctx.fillRect(item.x * scale, item.y * scale, item.w * scale, item.h * scale);
-            ctx.fillStyle = "#1a1a1a"; ctx.font = "bold 9px Arial"; if(item.w * scale > 25) ctx.fillText(item.label, (item.x * scale) + 4, (item.y * scale) + 12);
-        });
+    placements.forEach(p => {
+        ctx.strokeStyle = "#1a1a1a"; ctx.lineWidth = 1; ctx.strokeRect(p.x * scale, p.y * scale, p.w * scale, p.h * scale);
+        ctx.fillStyle = "rgba(255, 0, 0, 0.05)"; ctx.fillRect(p.x * scale, p.y * scale, p.w * scale, p.h * scale);
+        ctx.fillStyle = "#1a1a1a"; ctx.font = "bold 9px Arial"; if(p.w * scale > 25) ctx.fillText(p.label, (p.x * scale) + 4, (p.y * scale) + 12);
     });
     const btnDl = document.createElement("button"); btnDl.className = "btn btn-download"; btnDl.innerText = "⬇️ DOWNLOAD";
-    btnDl.onclick = () => { const link = document.createElement('a'); link.download = `Skema-${title}.png`; link.href = canvas.toDataURL(); link.click(); };
-    vContainer.appendChild(canvas); vContainer.appendChild(btnDl);
-    document.getElementById("canvas-list").appendChild(vContainer);
+    btnDl.onclick = () => { const l = document.createElement('a'); l.download = `Skema-${title}.png`; l.href = canvas.toDataURL(); l.click(); };
+    vContainer.appendChild(canvas); vContainer.appendChild(btnDl); document.getElementById("canvas-list").appendChild(vContainer);
 }
 addGroup();
 </script>
