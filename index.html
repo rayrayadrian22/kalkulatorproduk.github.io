@@ -202,6 +202,7 @@ function prosesKalkulasi() {
         const varData = produkFullData[prodName][varIndex];
         const flipBtn = g.querySelector(".btn-flip");
         const isFlipped = flipBtn.dataset.flipped === "true";
+        const isStrict = varData.strict || false;
         const rollW = varData.lebar;
         const rows = g.querySelectorAll(".table-body tr");
         let items = [];
@@ -210,19 +211,34 @@ function prosesKalkulasi() {
             let wIn = parseFloat(r.querySelector(".w-in").value) || 0;
             let hIn = parseFloat(r.querySelector(".h-in").value) || 0;
             let q = parseInt(r.querySelector(".q-in").value) || 0;
+            
             if(wIn > 0 && hIn > 0) {
-                let wF = wIn + (waste * 2); let hF = hIn + (waste * 2);
+                let wF = wIn + (waste * 2); 
+                let hF = hIn + (waste * 2);
+
+                // LOGIKA AUTO-ROTATE UNTUK NON-STRICT
+                if (!isStrict && !isFlipped) {
+                    // Jika Lebar > Roll tapi Tinggi muat di Roll, otomatis putar posisinya
+                    if (wF > rollW && hF <= rollW) {
+                        let temp = wF; wF = hF; hF = temp;
+                        rekomendasiArr.push(`🔄 Ukuran ${wIn}x${hIn} otomatis diputar agar tidak ada sambungan.`);
+                    }
+                }
+
                 if(isFlipped) {
+                    if(hF > rollW) { rekomendasiArr.push(`❌ Tinggi ${hIn}cm tidak muat horizontal di roll ${rollW}cm.`); }
                     for(let i=0; i<q; i++) items.push({w: wF, h: hF, label: `${wIn}x${hIn}(H)`});
                 } else if(wF > rollW) {
-                    let p = Math.ceil(wF/rollW); for(let i=0; i<(q*p); i++) items.push({w: wF/p, h: hF, label: `${wIn}x${hIn}(P)`});
-                } else { for(let i=0; i<q; i++) items.push({w: wF, h: hF, label: `${wIn}x${hIn}`}); }
+                    let p = Math.ceil(wF/rollW);
+                    for(let i=0; i<(q*p); i++) items.push({w: wF/p, h: hF, label: `${wIn}x${hIn}(P)`});
+                } else { 
+                    for(let i=0; i<q; i++) items.push({w: wF, h: hF, label: `${wIn}x${hIn}`}); 
+                }
             }
         });
 
         if(items.length === 0) return;
 
-        // ALGORITMA VERTICAL STACKING (COORDINATE SCAN)
         items.sort((a,b) => b.h - a.h);
         let totalHUsed = 0; let placements = []; let occupied = [];
 
@@ -252,6 +268,7 @@ function prosesKalkulasi() {
         itemDiv.innerHTML = `<h4>${prodName} - ${varData.var}</h4><div class="report-stats"><div class="stat-box"><span class="stat-label">Net</span><span class="stat-value">${totalHUsed.toFixed(0)} cm</span></div><div class="stat-box"><span class="stat-label">Checkout</span><span class="stat-value" style="color:var(--accent)">${buyH} cm</span></div><div class="stat-box"><span class="stat-label">Total Pcs</span><span class="stat-value" style="color:#2ecc71">${pcs} Pcs</span></div></div>`;
         reportContent.appendChild(itemDiv); drawVisualOptimized(`${prodName}-${varData.var}`, rollW, placements, totalHUsed);
     });
+    if(rekomendasiArr.length > 0) { rekBox.style.display = "block"; rekBox.innerHTML = "<strong>💡 INFO:</strong><br>" + [...new Set(rekomendasiArr)].join("<br>"); }
     document.getElementById("result-area").style.display = "block";
 }
 
